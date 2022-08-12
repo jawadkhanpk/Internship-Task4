@@ -2,33 +2,74 @@ package com.example.internshiptask4;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
-//  recieved data from MainActivity
+////////////////////////////recieved data from MainActivity /////////////////////////////////
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import static com.example.internshiptask4.MainActivity.NAME;
 import static com.example.internshiptask4.MainActivity.FATHERNAME;
 import static com.example.internshiptask4.MainActivity.IMAGE;
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 
 public class SecondActivity extends AppCompatActivity {
 
-    ImageView ivtest;
 
     private String name;
     private String fatherName;
-    private String uriToString;    // image Uri global variable
+    private String uriToString;
+
+
+    Button btnDatePicker;
+    int year;
+    int month;
+    int day;
+    TextView tvpickeddate;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-        ivtest = findViewById(R.id.imageView);
+
+        // calendar object
+        Calendar calendar = Calendar.getInstance();
+        btnDatePicker = findViewById(R.id.idbtndatepicker);
+        tvpickeddate = findViewById(R.id.idtvpickeddate);
+
+
+
+
+        btnDatePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                year = calendar.get(Calendar.YEAR);
+                month = calendar.get(Calendar.MONTH);
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(SecondActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        month = month+1;
+                        String pickeddate = dayOfMonth+ "/" +month+ "/" + year;
+                    tvpickeddate.setText(pickeddate);
+                    }
+                },year, month,day);
+                datePickerDialog.show();
+            }
+        });
 
         recievedataFromFirstActivity();
 
@@ -41,9 +82,9 @@ public class SecondActivity extends AppCompatActivity {
         fatherName = recievingIntent.getStringExtra(FATHERNAME);
         uriToString = recievingIntent.getStringExtra(IMAGE);
 
-        Uri stringToUri = Uri.parse(uriToString);
-        Toast.makeText(this, "stringToUri is: "+stringToUri ,Toast.LENGTH_SHORT).show();
-        ivtest.setImageURI(stringToUri);
+//        Uri stringToUri = Uri.parse(uriToString);
+//        Toast.makeText(this, "stringToUri is: "+stringToUri ,Toast.LENGTH_SHORT).show();
+//        ivtest.setImageURI(stringToUri);
 
     }
 
