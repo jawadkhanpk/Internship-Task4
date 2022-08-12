@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,8 +17,8 @@ import com.github.drjacky.imagepicker.ImagePicker;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageView pickImgfromGallery;
-    ImageView profilePicture;
+    ImageView pickImgfromGallery;       // vector to pick image from the gallery
+    ImageView profilePicture;           // placeholder where we show picked or chosen image
 
     Button btnNextActivity1;
 
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private String name;
     private String fatherName;
     private Uri uri;    // image Uri global variable
-    private String uritostring;     // to convert uri to string
+    private String uritostring=null;     // to convert uri to string
 
     public  static final String NAME = "NAME";
     public  static final String FATHERNAME = "FATHERNAME";
@@ -67,11 +68,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                name = etName.getText().toString().trim();
-                fatherName = etFatherName.getText().toString().trim();
-                uritostring = uri.toString();
-
-                sendDatatoSecondActivity();
+                String imge = profilePicture.getDrawable().toString(); //
+                Toast.makeText(getApplicationContext(),"" +imge,Toast.LENGTH_SHORT).show();
+                if (profilePicture.getDrawable().toString().equals ("android.graphics.drawable.BitmapDrawable@7479c6f")){
+                    Log.d("TAG",imge);
+                    Toast.makeText(getApplicationContext(),"Please Select Image!",Toast.LENGTH_SHORT).show();
+                }else if (etName.getText().toString().equals("")) {
+                    etName.setError("Name is Required");
+                }else if (etFatherName.getText().toString().equals("")){
+                    etFatherName.setError("Father Name is Required");
+                } else {
+                    name = etName.getText().toString().trim();
+                    fatherName = etFatherName.getText().toString().trim();
+                    uritostring = uri.toString();
+                    Log.d("TAG", "uri=" + uritostring);
+                    sendDatatoSecondActivity();
+                }
 
             }
         });
@@ -79,15 +91,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendDatatoSecondActivity() {
-        if (etName.getText().toString().equals("")) {
-            etName.setError("Name is Required");
-        }else if (etFatherName.getText().toString().equals("")){
-            etFatherName.setError("Father Name is Required");
-        }
-//        else if (profilePicture.equals(null)){
-//            Toast.makeText(this, "Please Pick Profile Image!!", Toast.LENGTH_SHORT).show();
-//        }
-        else {
+
 
             Intent sendingIntent = new Intent(MainActivity.this, SecondActivity.class);
             sendingIntent.putExtra(MainActivity.NAME,name); // sends data to second activity
@@ -95,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
             sendingIntent.putExtra(MainActivity.IMAGE,uritostring); // sends data to second activity
             startActivity(sendingIntent);
 
-        }
     }
 
     @Override

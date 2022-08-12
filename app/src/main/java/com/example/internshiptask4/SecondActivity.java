@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +40,11 @@ public class SecondActivity extends AppCompatActivity {
     int day;
     TextView tvpickeddate;
 
+    RadioGroup radiogroup;
+    RadioButton radioButton;
+
+    String radiobuttonmalefemale;   // tp get the text of selected radiobutton
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +57,8 @@ public class SecondActivity extends AppCompatActivity {
         btnDatePicker = findViewById(R.id.idbtndatepicker);
         tvpickeddate = findViewById(R.id.idtvpickeddate);
 
-
+        radiogroup = findViewById(R.id.idradiogroup);
+        radiogroup.clearCheck();
 
 
         btnDatePicker.setOnClickListener(new View.OnClickListener() {
@@ -71,16 +79,32 @@ public class SecondActivity extends AppCompatActivity {
             }
         });
 
-        recievedataFromFirstActivity();
+        recievedDataFromFirstActivity();
+
+
+
+
+        radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                int selectedId = group.getCheckedRadioButtonId();
+                radioButton = (RadioButton) findViewById(selectedId);
+
+                Toast.makeText(SecondActivity.this,radioButton.getText(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
     }
 
-    private void recievedataFromFirstActivity() {
+    private void recievedDataFromFirstActivity() {
 
         Intent recievingIntent = getIntent();
         name = recievingIntent.getStringExtra(NAME);
         fatherName = recievingIntent.getStringExtra(FATHERNAME);
         uriToString = recievingIntent.getStringExtra(IMAGE);
+
+
 
 //        Uri stringToUri = Uri.parse(uriToString);
 //        Toast.makeText(this, "stringToUri is: "+stringToUri ,Toast.LENGTH_SHORT).show();
