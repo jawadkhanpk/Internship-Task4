@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -18,10 +19,21 @@ public class MainActivity extends AppCompatActivity {
     ImageView pickImgfromGallery;
     ImageView profilePicture;
 
-    Button next;
+    Button btnNextActivity1;
 
-    Uri uri;
 
+
+    EditText etName;
+    EditText etFatherName;
+
+    private String name;
+    private String fatherName;
+    private Uri uri;    // image Uri global variable
+    private String uritostring;     // to convert uri to string
+
+    public  static final String NAME = "NAME";
+    public  static final String FATHERNAME = "FATHERNAME";
+    public  static final String IMAGE = "IMAGE";
 
 
     @Override
@@ -33,7 +45,11 @@ public class MainActivity extends AppCompatActivity {
         pickImgfromGallery = findViewById(R.id.idPickImgFromGallery);
         profilePicture = findViewById(R.id.idProfilePicture);
 
-        next = findViewById(R.id.idbtnnext);
+        btnNextActivity1 = findViewById(R.id.idbtnnext);
+
+        etName = findViewById(R.id.idEtName);
+        etFatherName = findViewById(R.id.idEtFatherName);
+
 
         pickImgfromGallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,13 +63,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        next.setOnClickListener(new View.OnClickListener() {
+        btnNextActivity1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Image Uri: "+ uri,  Toast.LENGTH_SHORT).show();
+
+                name = etName.getText().toString().trim();
+                fatherName = etFatherName.getText().toString().trim();
+                uritostring = uri.toString();
+
+                sendDatatoSecondActivity();
+
             }
         });
 
+    }
+
+    private void sendDatatoSecondActivity() {
+        if (etName.getText().toString().equals("")) {
+            etName.setError("Name is Required");
+        }else if (etFatherName.getText().toString().equals("")){
+            etFatherName.setError("Father Name is Required");
+        }
+//        else if (profilePicture.equals(null)){
+//            Toast.makeText(this, "Please Pick Profile Image!!", Toast.LENGTH_SHORT).show();
+//        }
+        else {
+
+            Intent sendingIntent = new Intent(MainActivity.this, SecondActivity.class);
+            sendingIntent.putExtra(MainActivity.NAME,name); // sends data to second activity
+            sendingIntent.putExtra(MainActivity.FATHERNAME,fatherName);  // sends data to second activity
+            sendingIntent.putExtra(MainActivity.IMAGE,uritostring); // sends data to second activity
+            startActivity(sendingIntent);
+
+        }
     }
 
     @Override
