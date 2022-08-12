@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+
+//  recieved data from MainActivity
+import static com.example.internshiptask4.MainActivity.NAME;
 import static com.example.internshiptask4.MainActivity.FATHERNAME;
 import static com.example.internshiptask4.MainActivity.IMAGE;
-import static com.example.internshiptask4.MainActivity.NAME;
 
 
 public class SecondActivity extends AppCompatActivity {
@@ -28,15 +30,19 @@ public class SecondActivity extends AppCompatActivity {
 
         ivtest = findViewById(R.id.imageView);
 
+        recievedataFromFirstActivity();
+
+    }
+
+    private void recievedataFromFirstActivity() {
+
         Intent recievingIntent = getIntent();
         name = recievingIntent.getStringExtra(NAME);
         fatherName = recievingIntent.getStringExtra(FATHERNAME);
         uriToString = recievingIntent.getStringExtra(IMAGE);
 
-//        Toast.makeText(this, "Image Uri Recieved: "+uriToString, Toast.LENGTH_SHORT).show();
-
         Uri stringToUri = Uri.parse(uriToString);
-        Toast.makeText(this, "conveted Uri: "+stringToUri ,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "stringToUri is: "+stringToUri ,Toast.LENGTH_SHORT).show();
         ivtest.setImageURI(stringToUri);
 
     }
