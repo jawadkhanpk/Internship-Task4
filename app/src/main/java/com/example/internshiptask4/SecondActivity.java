@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +31,7 @@ import static com.example.internshiptask4.MainActivity.IMAGE;
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 
-public class SecondActivity extends AppCompatActivity {
+public class SecondActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
 
     private String name;            // strings to hold data that is recieved from mainActivity
@@ -44,11 +46,18 @@ public class SecondActivity extends AppCompatActivity {
     TextView tvpickeddate;
 /////////////////////////////////////////Date Picker///////////////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////////////////////////
     RadioGroup radiogroup;
     RadioButton radioButton;
-
+/////////////////////////////////////////////////////////////////////////////////////
     SeekBar seekBarAge;
     TextView tvAgeDisplay;
+/////////////////////////////////////////////////////////////////////////////////////
+
+    Spinner spinnercities;
+    String cities;
+
+///////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +77,9 @@ public class SecondActivity extends AppCompatActivity {
         seekBarAge.setMax(60);
 
         tvAgeDisplay = findViewById(R.id.textView7);
+
+        spinnercities = findViewById(R.id.idSpinnerCity);
+
 
         btnDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +129,13 @@ public class SecondActivity extends AppCompatActivity {
 
             }
         });
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource
+                (this,R.array.cities, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnercities.setAdapter(adapter);
+        spinnercities.setOnItemSelectedListener(this);
+
     }
 
     private void recievedDataFromFirstActivity() {
@@ -134,4 +153,20 @@ public class SecondActivity extends AppCompatActivity {
 
     }
 
+
+
+    /////////////////////////////////////////////Spinner code to implement onItemSelectedListener////////////////////
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        cities = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(),cities,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    /////////////////////////////////////////////Spinner code to implement onItemSelectedListener////////////////////
 }
