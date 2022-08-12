@@ -51,7 +51,7 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
             <SeekBar
-                android:id="@+id/seekBar"
+                android:id="@+id/idseekbarage"
                 style="@style/Widget.AppCompat.SeekBar.Discrete"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
@@ -136,7 +136,7 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/idSpinnerCity"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>

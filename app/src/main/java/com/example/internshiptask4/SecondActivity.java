@@ -7,17 +7,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 ////////////////////////////recieved data from MainActivity /////////////////////////////////
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import static com.example.internshiptask4.MainActivity.NAME;
@@ -29,22 +32,23 @@ import static com.example.internshiptask4.MainActivity.IMAGE;
 public class SecondActivity extends AppCompatActivity {
 
 
-    private String name;
-    private String fatherName;
-    private String uriToString;
+    private String name;            // strings to hold data that is recieved from mainActivity
+    private String fatherName;      // strings to hold data that is recieved from mainActivity
+    private String uriToString;     // strings to hold data that is recieved from mainActivity
 
-
+/////////////////////////////////////////Date Picker/////////////////////////////////////////////////////////////
     Button btnDatePicker;
     int year;
     int month;
     int day;
     TextView tvpickeddate;
+/////////////////////////////////////////Date Picker///////////////////////////////////////////////////////////////////////
 
     RadioGroup radiogroup;
     RadioButton radioButton;
 
-    String radiobuttonmalefemale;   // tp get the text of selected radiobutton
-
+    SeekBar seekBarAge;
+    TextView tvAgeDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,10 @@ public class SecondActivity extends AppCompatActivity {
         radiogroup = findViewById(R.id.idradiogroup);
         radiogroup.clearCheck();
 
+        seekBarAge = findViewById(R.id.idseekbarage);
+        seekBarAge.setMax(60);
+
+        tvAgeDisplay = findViewById(R.id.textView7);
 
         btnDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,11 +78,11 @@ public class SecondActivity extends AppCompatActivity {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(SecondActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        month = month+1;
-                        String pickeddate = dayOfMonth+ "/" +month+ "/" + year;
-                    tvpickeddate.setText(pickeddate);
+                        month = month + 1;
+                        String pickeddate = dayOfMonth + "/" + month + "/" + year;
+                        tvpickeddate.setText(pickeddate);
                     }
-                },year, month,day);
+                }, year, month, day);
                 datePickerDialog.show();
             }
         });
@@ -82,19 +90,33 @@ public class SecondActivity extends AppCompatActivity {
         recievedDataFromFirstActivity();
 
 
-
-
         radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 int selectedId = group.getCheckedRadioButtonId();
                 radioButton = (RadioButton) findViewById(selectedId);
-
-                Toast.makeText(SecondActivity.this,radioButton.getText(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SecondActivity.this, radioButton.getText(), Toast.LENGTH_SHORT).show();
 
             }
         });
 
+        seekBarAge.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                tvAgeDisplay.setText("Age is: "+String.valueOf(progress));
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     private void recievedDataFromFirstActivity() {
