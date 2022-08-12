@@ -28,20 +28,16 @@ public class SecondActivity extends AppCompatActivity {
 
         ivtest = findViewById(R.id.imageView);
 
-
-
-
         Intent recievingIntent = getIntent();
         name = recievingIntent.getStringExtra(NAME);
         fatherName = recievingIntent.getStringExtra(FATHERNAME);
         uriToString = recievingIntent.getStringExtra(IMAGE);
 
-//       Toast.makeText(this, "Image Uri Recieved: "+uriToString, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Image Uri Recieved: "+uriToString, Toast.LENGTH_SHORT).show();
 
-
-        Uri convertedUri = Uri.parse(uriToString);
-        Toast.makeText(this, "conveted Uri: "+convertedUri ,Toast.LENGTH_SHORT).show();
-        ivtest.setImageURI(convertedUri);
+        Uri stringToUri = Uri.parse(uriToString);
+        Toast.makeText(this, "conveted Uri: "+stringToUri ,Toast.LENGTH_SHORT).show();
+        ivtest.setImageURI(stringToUri);
 
     }
 
