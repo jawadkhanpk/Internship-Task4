@@ -7,8 +7,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +50,7 @@ public class ThirdActivity extends AppCompatActivity {
     public  static final String RATING = "RATING";
 
 
-
+    Switch switchshowhidedata;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,9 @@ public class ThirdActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.idRatingBar);
         btnSubmittRating = findViewById(R.id.idbtnsubmittRating);
 
+        switchshowhidedata = findViewById(R.id.idswitchshowhidedata);
+
+
         Uri stringToUri = Uri.parse(uriToString);
         ivprofileImageThirdActivity.setImageURI(stringToUri);
 
@@ -86,6 +91,31 @@ public class ThirdActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 submittRating();
+            }
+        });
+
+
+        switchshowhidedata.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (switchshowhidedata.isChecked()){
+                    tvName.setVisibility(View.VISIBLE);
+                    tvFatherName.setVisibility(View.VISIBLE);
+                    tvGender.setVisibility(View.VISIBLE);
+                    tvAge.setVisibility(View.VISIBLE);
+                    tvCity.setVisibility(View.VISIBLE);
+                    tvDate.setVisibility(View.VISIBLE);
+                    ivprofileImageThirdActivity.setVisibility(View.VISIBLE);
+                }
+                else {
+                    tvName.setVisibility(View.INVISIBLE);
+                    tvFatherName.setVisibility(View.INVISIBLE);
+                    tvGender.setVisibility(View.INVISIBLE);
+                    tvAge.setVisibility(View.INVISIBLE);
+                    tvCity.setVisibility(View.INVISIBLE);
+                    tvDate.setVisibility(View.INVISIBLE);
+                    ivprofileImageThirdActivity.setVisibility(View.INVISIBLE);
+                }
             }
         });
     }

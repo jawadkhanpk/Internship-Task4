@@ -1,8 +1,10 @@
 package com.example.internshiptask4;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -70,6 +72,8 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
 
 //////variables for sending data from MainActivity to SecondActivity////////////////////////////////
 
+    AlertDialog.Builder builder;
+
     public  static final String NAME = "NAME";
     public  static final String FATHERNAME = "FATHERNAME";
     public  static final String IMAGE = "IMAGE";
@@ -104,6 +108,7 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
         btnNextSecondActivity = findViewById(R.id.idbtnnextSecondActivity);
 
 
+        builder = new AlertDialog.Builder(this);
 
         btnDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,9 +172,53 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
         btnNextSecondActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendDatatoThirdActivity();
+
+                if (pickeddate == (null)){
+                    Toast.makeText(SecondActivity.this, "Please Select Date!", Toast.LENGTH_SHORT).show();
+                }
+                else if (gender == (null)){
+                    Toast.makeText(SecondActivity.this, "Please Specify Your Gender!", Toast.LENGTH_SHORT).show();
+                }
+                else if (age == (null)){
+                    Toast.makeText(SecondActivity.this, "Please Select Your Age!", Toast.LENGTH_SHORT).show();
+                }
+                else if (cities.equals ("Select City")){
+                    Toast.makeText(SecondActivity.this, "Please Select Your City!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    showAlertOnSecondActivity();      // function to show alertDialog on MainActivity
+                }
+
+
             }
         });
+
+    }
+
+    private void showAlertOnSecondActivity() {
+        builder.setMessage("")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+//                        finish();
+//                        Toast.makeText(getApplicationContext(),"you choose yes action for alertbox",
+//                                Toast.LENGTH_SHORT).show();
+                        sendDatatoThirdActivity();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'NO' Button
+                        dialog.cancel();
+                        Toast.makeText(getApplicationContext(),"you choose no action for alertbox",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("Do you want to Proceed? ");
+        alert.show();
 
     }
 
@@ -194,7 +243,7 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         cities = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(),cities,Toast.LENGTH_LONG).show();
+//        Toast.makeText(parent.getContext(),cities,Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -218,6 +267,7 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
         sendingIntent.putExtra(SecondActivity.DATE,pickeddate);
         sendingIntent.putExtra(SecondActivity.IMAGE,uriToString);
         startActivity(sendingIntent);
+
 
     }
 

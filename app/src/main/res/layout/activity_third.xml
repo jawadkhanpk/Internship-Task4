@@ -149,6 +149,7 @@
             android:layout_marginTop="16dp"
             android:text="Show/Hide Data"
             app:layout_constraintEnd_toEndOf="parent"
+            android:checked="true"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
