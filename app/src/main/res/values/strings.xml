@@ -1,21 +1,21 @@
 <resources>
     <string name="app_name">Internship Task 4</string>
-<string-array name="cities">
-    <item>Select City</item>
-    <item>Abbottabad</item>
-    <item>Islamabad</item>
-    <item>Peshawar</item>
-    <item>Karachi</item>
-    <item>Lahore</item>
-    <item>Multan</item>
-    <item>Punjab</item>
-    <item>Mardan</item>
-    <item>Swabi</item>
-    <item>Chakwal</item>
-    <item>Rawalpindi</item>
-    <item>Jhang</item>
-    <item>Sahiwal</item>
+    <string-array name="cities">
+        <item>Select City</item>
+        <item>Abbottabad</item>
+        <item>Islamabad</item>
+        <item>Peshawar</item>
+        <item>Karachi</item>
+        <item>Lahore</item>
+        <item>Multan</item>
+        <item>Punjab</item>
+        <item>Mardan</item>
+        <item>Swabi</item>
+        <item>Chakwal</item>
+        <item>Rawalpindi</item>
+        <item>Jhang</item>
+        <item>Sahiwal</item>
 
 
-</string-array>
+    </string-array>
 </resources>

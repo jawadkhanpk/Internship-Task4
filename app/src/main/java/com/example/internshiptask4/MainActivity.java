@@ -20,9 +20,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView pickImgfromGallery;       // vector to pick image from the gallery
     ImageView profilePicture;           // placeholder where we show picked or chosen image
 
-    Button btnNextActivity1;
-
-
+    Button btnNextMainActivity;
 
     EditText etName;
     EditText etFatherName;
@@ -32,10 +30,13 @@ public class MainActivity extends AppCompatActivity {
     private Uri uri;    // image Uri global variable
     private String uritostring=null;     // to convert uri to string
 
+//////variables for sending data from MainActivity to SecondActivity////////////////////////////////
+
     public  static final String NAME = "NAME";
     public  static final String FATHERNAME = "FATHERNAME";
     public  static final String IMAGE = "IMAGE";
 
+//////variables for sending data from MainActivity to SecondActivity////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         pickImgfromGallery = findViewById(R.id.idPickImgFromGallery);
         profilePicture = findViewById(R.id.idProfilePicture);
 
-        btnNextActivity1 = findViewById(R.id.idbtnnext);
+        btnNextMainActivity = findViewById(R.id.idbtnnextMainActivity);
 
         etName = findViewById(R.id.idEtName);
         etFatherName = findViewById(R.id.idEtFatherName);
@@ -64,27 +65,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnNextActivity1.setOnClickListener(new View.OnClickListener() {
+        btnNextMainActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 String imge = profilePicture.getDrawable().toString(); //
                 Toast.makeText(getApplicationContext(),"" +imge,Toast.LENGTH_SHORT).show();
-                if (profilePicture.getDrawable().toString().equals ("android.graphics.drawable.BitmapDrawable@7479c6f")){
-                    Log.d("TAG",imge);
-                    Toast.makeText(getApplicationContext(),"Please Select Image!",Toast.LENGTH_SHORT).show();
-                }else if (etName.getText().toString().equals("")) {
+                 if (etName.getText().toString().equals("")) {
                     etName.setError("Name is Required");
-                }else if (etFatherName.getText().toString().equals("")){
-                    etFatherName.setError("Father Name is Required");
+                }else if (etFatherName.getText().toString().equals("")) {
+                     etFatherName.setError("Father Name is Required");
+                     profilePicture.getDrawable().toString().equals(null);
+                 }else if (profilePicture.getDrawable().toString().equals("android.graphics.drawable.BitmapDrawable@7479c6f")){
+                         Log.d("TAG",imge);
+                         Toast.makeText(getApplicationContext(),"Please Select Image!",Toast.LENGTH_SHORT).show();
                 } else {
                     name = etName.getText().toString().trim();
                     fatherName = etFatherName.getText().toString().trim();
                     uritostring = uri.toString();
                     Log.d("TAG", "uri=" + uritostring);
+
                     sendDatatoSecondActivity();
                 }
-
             }
         });
 

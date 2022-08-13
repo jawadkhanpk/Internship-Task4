@@ -28,15 +28,15 @@ import java.util.Calendar;
 import static com.example.internshiptask4.MainActivity.NAME;
 import static com.example.internshiptask4.MainActivity.FATHERNAME;
 import static com.example.internshiptask4.MainActivity.IMAGE;
-///////////////////////////////////////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public class SecondActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
 
-    private String name;            // strings to hold data that is recieved from mainActivity
-    private String fatherName;      // strings to hold data that is recieved from mainActivity
-    private String uriToString;     // strings to hold data that is recieved from mainActivity
+    private String name;            // strings to hold data that is received from mainActivity
+    private String fatherName;      // strings to hold data that is received from mainActivity
+    private String uriToString;     // strings to hold data that is received from mainActivity
 
 /////////////////////////////////////////Date Picker/////////////////////////////////////////////////////////////
     Button btnDatePicker;
@@ -44,20 +44,41 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
     int month;
     int day;
     TextView tvpickeddate;
+    String pickeddate;
+
 /////////////////////////////////////////Date Picker///////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////
     RadioGroup radiogroup;
     RadioButton radioButton;
+    public String gender;
 /////////////////////////////////////////////////////////////////////////////////////
     SeekBar seekBarAge;
     TextView tvAgeDisplay;
+    String age; // for sending age to Third Activity
 /////////////////////////////////////////////////////////////////////////////////////
 
     Spinner spinnercities;
     String cities;
 
 ///////////////////////////////////////////////////////////////////////////////////////
+
+    Button btnNextSecondActivity;
+
+////////////////////////////////////////////////////////////////////////////////////
+
+
+//////variables for sending data from MainActivity to SecondActivity////////////////////////////////
+
+    public  static final String NAME = "NAME";
+    public  static final String FATHERNAME = "FATHERNAME";
+    public  static final String IMAGE = "IMAGE";
+    public  static final String GENDER = "GENDER";
+    public  static final String AGE = "AGE";
+    public  static final String CITY = "CITY";
+    public  static final String DATE = "DATE";
+
+//////variables for sending data from MainActivity to SecondActivity////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +101,9 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
 
         spinnercities = findViewById(R.id.idSpinnerCity);
 
+        btnNextSecondActivity = findViewById(R.id.idbtnnextSecondActivity);
+
+
 
         btnDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +115,7 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         month = month + 1;
-                        String pickeddate = dayOfMonth + "/" + month + "/" + year;
+                        pickeddate = dayOfMonth + "/" + month + "/" + year;
                         tvpickeddate.setText(pickeddate);
                     }
                 }, year, month, day);
@@ -109,6 +133,8 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
                 radioButton = (RadioButton) findViewById(selectedId);
                 Toast.makeText(SecondActivity.this, radioButton.getText(), Toast.LENGTH_SHORT).show();
 
+                gender = String.valueOf(radioButton.getText());
+
             }
         });
 
@@ -116,6 +142,7 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 tvAgeDisplay.setText("Age is: "+String.valueOf(progress));
+                age = String.valueOf(progress);
 
             }
 
@@ -136,6 +163,14 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
         spinnercities.setAdapter(adapter);
         spinnercities.setOnItemSelectedListener(this);
 
+
+        btnNextSecondActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendDatatoThirdActivity();
+            }
+        });
+
     }
 
     private void recievedDataFromFirstActivity() {
@@ -144,7 +179,6 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
         name = recievingIntent.getStringExtra(NAME);
         fatherName = recievingIntent.getStringExtra(FATHERNAME);
         uriToString = recievingIntent.getStringExtra(IMAGE);
-
 
 
 //        Uri stringToUri = Uri.parse(uriToString);
@@ -169,4 +203,25 @@ public class SecondActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     /////////////////////////////////////////////Spinner code to implement onItemSelectedListener////////////////////
+
+    //////////////////////Method to send data from SecondActivity to ThirdActivity///////////////////////////
+
+
+    private void sendDatatoThirdActivity() {
+
+        Intent sendingIntent = new Intent(SecondActivity.this, ThirdActivity.class);
+        sendingIntent.putExtra(SecondActivity.NAME,name);
+        sendingIntent.putExtra(SecondActivity.FATHERNAME,fatherName);
+        sendingIntent.putExtra(SecondActivity.GENDER,gender);
+        sendingIntent.putExtra(SecondActivity.AGE,age);
+        sendingIntent.putExtra(SecondActivity.CITY,cities);
+        sendingIntent.putExtra(SecondActivity.DATE,pickeddate);
+        sendingIntent.putExtra(SecondActivity.IMAGE,uriToString);
+        startActivity(sendingIntent);
+
+    }
+
+    //////////////////////Method to send data from SecondActivity to ThirdActivity///////////////////////////
+
+
 }

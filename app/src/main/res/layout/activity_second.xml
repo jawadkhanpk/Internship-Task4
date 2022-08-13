@@ -29,7 +29,7 @@
             app:layout_constraintTop_toBottomOf="@+id/idtvpickeddate" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/idbtnnextSecondActivity"
             android:layout_width="225dp"
             android:layout_height="50dp"
             android:layout_marginTop="36dp"
